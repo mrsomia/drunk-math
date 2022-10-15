@@ -45,7 +45,12 @@ const Home: NextPage = () => {
                   onChange={() => setIsMale(true)}
                   checked={isMale || false}
                   />
-                <label htmlFor="Male">Male</label>
+                <label
+                  htmlFor="Male"
+                  className="mx-2"
+                >
+                  Male
+                </label>
               </div>
               <div className="m-2">
                 <input
@@ -56,7 +61,12 @@ const Home: NextPage = () => {
                   onChange={() => setIsMale(false)}
                   checked={isMale == null ? false : !isMale}
                   />
-                <label htmlFor="Female">Female</label>
+                <label
+                  htmlFor="Female"
+                  className="mx-2"
+                >
+                  Female
+                </label>
               </div>
             </fieldset>
 
