@@ -54,7 +54,7 @@ const Home: NextPage = () => {
                   id="Female"
                   value="Female"
                   onChange={() => setIsMale(false)}
-                  checked={isMale == null || !isMale}
+                  checked={isMale == null ? false : !isMale}
                   />
                 <label htmlFor="Female">Female</label>
               </div>
