@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { calcAlcoholInKG, calcBAC } from "../utils";
 
 const Home: NextPage = () => {
@@ -9,21 +9,12 @@ const Home: NextPage = () => {
   const [abv, setAbv] = useState<null | number>(null);
   const [time, setTime] = useState<null | number>(null);
 
-  const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWeight(Number(e.target.value));
-  };
-
-  const handleMlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMl(Number(e.target.value));
-  };
-
-  const handleAbvChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAbv(Number(e.target.value));
-  };
-
-  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTime(Number(e.target.value));
-  };
+  const handleNumericValueChange  = (setterFunction: Dispatch<SetStateAction<null | number>>) => {
+    return (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { value } = e.target
+      setterFunction(value === '' ? null : Number(value));
+    }
+  }
 
   return (
     <>
@@ -83,7 +74,7 @@ const Home: NextPage = () => {
                 name="weight"
                 id="weight"
                 value={weight ?? ""}
-                onChange={handleWeightChange}
+                onChange={handleNumericValueChange(setWeight)}
                 />
             </div>
 
@@ -105,7 +96,7 @@ const Home: NextPage = () => {
                 name="ml"
                 id="ml"
                 value={ml ?? ""}
-                onChange={handleMlChange}
+                onChange={handleNumericValueChange(setMl)}
                 />
             </div>
 
@@ -122,7 +113,7 @@ const Home: NextPage = () => {
                 name="ABV"
                 id="ABV"
                 value={abv ?? ""}
-                onChange={handleAbvChange}
+                onChange={handleNumericValueChange(setAbv)}
                 />
             </div>
 
@@ -139,7 +130,7 @@ const Home: NextPage = () => {
                 name="time"
                 id="mins"
                 value={time ?? ""}
-                onChange={handleTimeChange}
+                onChange={handleNumericValueChange(setTime)}
                 />
             </div>
           </fieldset>
