@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useState } from "react";
-import { calcAlcoholInGrams, calcBAC } from "../utils";
+import { calcAlcoholInKG, calcBAC } from "../utils";
 
 const Home: NextPage = () => {
   const [isMale, setIsMale] = useState<null | boolean>(null);
@@ -125,10 +125,10 @@ const Home: NextPage = () => {
             <p>
               Your BAC would be:{" "}
               {`${calcBAC({
-                alcholConsumed: calcAlcoholInGrams(ml, abv),
+                alcholConsumed: calcAlcoholInKG(ml, abv),
                 isMale: isMale,
                 weightInKG: weight,
-                timeInHours: time,
+                timeInHours: (time/60),
               })}`}
             </p>
           </div>

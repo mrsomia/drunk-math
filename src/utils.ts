@@ -1,5 +1,6 @@
-export function calcAlcoholInGrams(totalConsumedInML: number, ABV: number) {
-  return (totalConsumedInML * ABV)/10 * 8
+export function calcAlcoholInKG(totalConsumedInML: number, ABV: number) {
+  const alcoholInML = totalConsumedInML * (ABV/100)
+  return (alcoholInML/10 * 8)/1000
 }
 
 export function calcBAC({ alcholConsumed, isMale, weightInKG, timeInHours }: {
@@ -11,7 +12,7 @@ export function calcBAC({ alcholConsumed, isMale, weightInKG, timeInHours }: {
   const metabolism = isMale ? 0.015 : 0.017
   const waterRatio = isMale ? 0.68 : 0.55
   const eBAC = alcholConsumed / (waterRatio * weightInKG) * 100 - (metabolism * timeInHours)
-  return eBAC
+  return Math.max(eBAC, 0)
 }
 
 
