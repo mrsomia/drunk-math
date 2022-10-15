@@ -31,7 +31,7 @@ const Home: NextPage = () => {
         <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
           Drunk Math
         </h1>
-        <form className="grid grid-cols-2 gap-6 m-4 " onSubmit={(e) => e.preventDefault()}>
+        <form className="grid grid-cols-1 sm:grid-cols-2 gap-6 m-4 " onSubmit={(e) => e.preventDefault()}>
           <div className="flex flex-col">
 
             <fieldset className="p-2">
@@ -83,7 +83,12 @@ const Home: NextPage = () => {
             <legend className="text-center font-medium py-3">Alcohol</legend>
 
             <div className="flex flex-col">
-              <label htmlFor="ml">Volume in ml</label>
+              <label
+                htmlFor="ml" 
+                className="font-medium p-2"
+              >
+                Volume in ml
+              </label>
               <input
                 className="border-solid border-2 border-gray-700 round-sm p-1 m-2"
                 type="number"
@@ -91,11 +96,16 @@ const Home: NextPage = () => {
                 id="ml"
                 value={ml ?? ""}
                 onChange={handleMlChange}
-              />
+                />
             </div>
 
             <div className="flex flex-col">
-              <label htmlFor="ABV">ABV of this bevarage</label>
+              <label
+                htmlFor="ABV"
+                className="font-medium p-2"
+              >
+                ABV of this bevarage
+              </label>
               <input
                 className="border-solid border-2 border-gray-700 round-sm p-1 m-2"
                 type="number"
@@ -103,11 +113,16 @@ const Home: NextPage = () => {
                 id="ABV"
                 value={abv ?? ""}
                 onChange={handleAbvChange}
-              />
+                />
             </div>
 
             <div className="flex flex-col">
-              <label htmlFor="mins">Over how many Mins</label>
+              <label
+                htmlFor="mins"
+                className="font-medium p-2"
+              >
+                Over how many Mins
+              </label>
               <input
                 className="border-solid border-2 border-gray-700 round-sm p-1 m-2"
                 type="number"
@@ -115,7 +130,7 @@ const Home: NextPage = () => {
                 id="mins"
                 value={time ?? ""}
                 onChange={handleTimeChange}
-              />
+                />
             </div>
           </fieldset>
         </form>
