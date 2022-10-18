@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import { Dispatch, SetStateAction, useState } from "react";
+import Graph from "../components/graph";
 import { calcAlcoholInKG, calcBAC } from "../utils";
 
 const Home: NextPage = () => {
@@ -18,8 +19,8 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <main className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
-        <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
+      <main className="container mx-auto flex min-h-screen flex-col items-center p-4">
+        <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem] mt-12">
           Drunk Math
         </h1>
         <form className="grid grid-cols-1 sm:grid-cols-2 gap-6 m-4 " onSubmit={(e) => e.preventDefault()}>
@@ -85,23 +86,6 @@ const Home: NextPage = () => {
 
             <div className="flex flex-col">
               <label
-                htmlFor="ml" 
-                className="font-medium p-2"
-              >
-                Volume in ml
-              </label>
-              <input
-                className="border-solid border-2 border-gray-700 round-sm p-1 m-2"
-                type="number"
-                name="ml"
-                id="ml"
-                value={ml ?? ""}
-                onChange={handleNumericValueChange(setMl)}
-                />
-            </div>
-
-            <div className="flex flex-col">
-              <label
                 htmlFor="ABV"
                 className="font-medium p-2"
               >
@@ -119,24 +103,42 @@ const Home: NextPage = () => {
 
             <div className="flex flex-col">
               <label
-                htmlFor="mins"
+                htmlFor="hours"
                 className="font-medium p-2"
               >
-                Over how many Mins
+                Over How Many Hours?
               </label>
               <input
                 className="border-solid border-2 border-gray-700 round-sm p-1 m-2"
                 type="number"
                 name="time"
-                id="mins"
+                id="hours"
                 value={time ?? ""}
                 onChange={handleNumericValueChange(setTime)}
                 />
             </div>
+
+            <div className="flex flex-col">
+              <label
+                htmlFor="ml" 
+                className="font-medium p-2"
+              >
+                Volume in ml
+              </label>
+              <input
+                className="border-solid border-2 border-gray-700 round-sm p-1 m-2"
+                type="number"
+                name="ml"
+                id="ml"
+                value={ml ?? ""}
+                onChange={handleNumericValueChange(setMl)}
+                />
+            </div>
+
           </fieldset>
         </form>
 
-        {weight && isMale != null  && time && ml && abv && (
+        {weight && isMale !== null  && time && ml && abv && (
           <div>
             <p>
               Your BAC would be:{" "}
@@ -144,11 +146,15 @@ const Home: NextPage = () => {
                 alcholConsumed: calcAlcoholInKG(ml, abv),
                 isMale: isMale,
                 weightInKG: weight,
-                timeInHours: (time/60),
+                timeInHours: time,
               })}`}
             </p>
           </div>
         )}
+
+        { weight && isMale !== null && abv &&
+          <Graph weight={weight} isMale={isMale} ABV={abv} time={time ? time : undefined} />
+        }
       </main>
     </>
   );
