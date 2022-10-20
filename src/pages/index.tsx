@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { Dispatch, SetStateAction, useState } from "react";
-import Graph from "../components/graph";
+import Table from "../components/table";
 import { calcAlcoholInKG, calcBAC } from "../utils";
 
 const Home: NextPage = () => {
@@ -10,7 +10,7 @@ const Home: NextPage = () => {
   const [abv, setAbv] = useState<null | number>(null);
   const [time, setTime] = useState<null | number>(null);
 
-  const handleNumericValueChange  = (setterFunction: Dispatch<SetStateAction<null | number>>) => {
+  const handleNumericValueChange = (setterFunction: Dispatch<SetStateAction<null | number>>) => {
     return (e: React.ChangeEvent<HTMLInputElement>) => {
       const { value } = e.target
       setterFunction(value === '' ? null : Number(value));
@@ -36,7 +36,7 @@ const Home: NextPage = () => {
                   value="Male"
                   onChange={() => setIsMale(true)}
                   checked={isMale || false}
-                  />
+                />
                 <label
                   htmlFor="Male"
                   className="mx-2"
@@ -52,7 +52,7 @@ const Home: NextPage = () => {
                   value="Female"
                   onChange={() => setIsMale(false)}
                   checked={isMale == null ? false : !isMale}
-                  />
+                />
                 <label
                   htmlFor="Female"
                   className="mx-2"
@@ -63,7 +63,7 @@ const Home: NextPage = () => {
             </fieldset>
 
             <div className="flex flex-col">
-              <label 
+              <label
                 htmlFor="weight"
                 className="font-medium p-2 py-3"
               >
@@ -76,7 +76,7 @@ const Home: NextPage = () => {
                 id="weight"
                 value={weight ?? ""}
                 onChange={handleNumericValueChange(setWeight)}
-                />
+              />
             </div>
 
           </div>
@@ -98,7 +98,7 @@ const Home: NextPage = () => {
                 id="ABV"
                 value={abv ?? ""}
                 onChange={handleNumericValueChange(setAbv)}
-                />
+              />
             </div>
 
             <div className="flex flex-col">
@@ -115,12 +115,12 @@ const Home: NextPage = () => {
                 id="hours"
                 value={time ?? ""}
                 onChange={handleNumericValueChange(setTime)}
-                />
+              />
             </div>
 
             <div className="flex flex-col">
               <label
-                htmlFor="ml" 
+                htmlFor="ml"
                 className="font-medium p-2"
               >
                 Volume in ml
@@ -132,14 +132,14 @@ const Home: NextPage = () => {
                 id="ml"
                 value={ml ?? ""}
                 onChange={handleNumericValueChange(setMl)}
-                />
+              />
             </div>
 
           </fieldset>
         </form>
 
-        {weight && isMale !== null  && time && ml && abv && (
-          <div>
+        {weight && isMale !== null && time && ml && abv && (
+          <div className="my-4">
             <p>
               Your BAC would be:{" "}
               {`${calcBAC({
@@ -147,13 +147,18 @@ const Home: NextPage = () => {
                 isMale: isMale,
                 weightInKG: weight,
                 timeInHours: time,
-              })}`}
+              }).toFixed(2)}`}
             </p>
           </div>
         )}
 
-        { weight && isMale !== null && abv &&
-          <Graph weight={weight} isMale={isMale} ABV={abv} time={time ? time : undefined} />
+        {weight && isMale !== null && abv &&
+          <Table
+            weight={weight}
+            isMale={isMale}
+            ABV={abv}
+            time={time ? time : undefined}
+          />
         }
       </main>
     </>
