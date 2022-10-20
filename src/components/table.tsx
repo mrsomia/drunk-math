@@ -23,7 +23,7 @@ function Table({ isMale, ABV, weight, time = 6}: TableProps) {
 
   return (
     <>
-      <h4 className='my-4 mx-3 text-center text-lg'>
+      <h4 className='my-4 mx-3 text-center text-lg md:text-xl'>
         In {time} hours, you will reach these BAC levels if you drink the following amounts every 30 mins:
       </h4>
       <table className='my-3 border-collapse table-fixed max-w-[60%] w-full'>

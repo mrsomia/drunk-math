@@ -27,7 +27,6 @@ const Home: NextPage = () => {
           <div className="flex flex-col">
 
             <fieldset className="p-2">
-              <legend className="text-center font-medium py-3">Gender</legend>
               <div className="m-2">
                 <input
                   type="radio"
@@ -82,8 +81,6 @@ const Home: NextPage = () => {
           </div>
 
           <fieldset>
-            <legend className="text-center font-medium py-3">Alcohol</legend>
-
             <div className="flex flex-col">
               <label
                 htmlFor="ABV"
