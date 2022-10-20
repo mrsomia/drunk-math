@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import { Dispatch, SetStateAction, useState } from "react";
+import Table from "../components/table";
 import { calcAlcoholInKG, calcBAC } from "../utils";
 
 const Home: NextPage = () => {
@@ -9,7 +10,7 @@ const Home: NextPage = () => {
   const [abv, setAbv] = useState<null | number>(null);
   const [time, setTime] = useState<null | number>(null);
 
-  const handleNumericValueChange  = (setterFunction: Dispatch<SetStateAction<null | number>>) => {
+  const handleNumericValueChange = (setterFunction: Dispatch<SetStateAction<null | number>>) => {
     return (e: React.ChangeEvent<HTMLInputElement>) => {
       const { value } = e.target
       setterFunction(value === '' ? null : Number(value));
@@ -18,15 +19,14 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <main className="container mx-auto flex min-h-screen flex-col items-center justify-center p-4">
-        <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem]">
+      <main className="container mx-auto flex min-h-screen flex-col items-center p-4">
+        <h1 className="text-5xl font-extrabold leading-normal text-gray-700 md:text-[5rem] mt-12">
           Drunk Math
         </h1>
         <form className="grid grid-cols-1 sm:grid-cols-2 gap-6 m-4 " onSubmit={(e) => e.preventDefault()}>
           <div className="flex flex-col">
 
             <fieldset className="p-2">
-              <legend className="text-center font-medium py-3">Gender</legend>
               <div className="m-2">
                 <input
                   type="radio"
@@ -35,7 +35,7 @@ const Home: NextPage = () => {
                   value="Male"
                   onChange={() => setIsMale(true)}
                   checked={isMale || false}
-                  />
+                />
                 <label
                   htmlFor="Male"
                   className="mx-2"
@@ -51,7 +51,7 @@ const Home: NextPage = () => {
                   value="Female"
                   onChange={() => setIsMale(false)}
                   checked={isMale == null ? false : !isMale}
-                  />
+                />
                 <label
                   htmlFor="Female"
                   className="mx-2"
@@ -62,7 +62,7 @@ const Home: NextPage = () => {
             </fieldset>
 
             <div className="flex flex-col">
-              <label 
+              <label
                 htmlFor="weight"
                 className="font-medium p-2 py-3"
               >
@@ -75,31 +75,12 @@ const Home: NextPage = () => {
                 id="weight"
                 value={weight ?? ""}
                 onChange={handleNumericValueChange(setWeight)}
-                />
+              />
             </div>
 
           </div>
 
           <fieldset>
-            <legend className="text-center font-medium py-3">Alcohol</legend>
-
-            <div className="flex flex-col">
-              <label
-                htmlFor="ml" 
-                className="font-medium p-2"
-              >
-                Volume in ml
-              </label>
-              <input
-                className="border-solid border-2 border-gray-700 round-sm p-1 m-2"
-                type="number"
-                name="ml"
-                id="ml"
-                value={ml ?? ""}
-                onChange={handleNumericValueChange(setMl)}
-                />
-            </div>
-
             <div className="flex flex-col">
               <label
                 htmlFor="ABV"
@@ -114,41 +95,68 @@ const Home: NextPage = () => {
                 id="ABV"
                 value={abv ?? ""}
                 onChange={handleNumericValueChange(setAbv)}
-                />
+              />
             </div>
 
             <div className="flex flex-col">
               <label
-                htmlFor="mins"
+                htmlFor="hours"
                 className="font-medium p-2"
               >
-                Over how many Mins
+                Over How Many Hours?
               </label>
               <input
                 className="border-solid border-2 border-gray-700 round-sm p-1 m-2"
                 type="number"
                 name="time"
-                id="mins"
+                id="hours"
                 value={time ?? ""}
                 onChange={handleNumericValueChange(setTime)}
-                />
+              />
             </div>
+
+            <div className="flex flex-col">
+              <label
+                htmlFor="ml"
+                className="font-medium p-2"
+              >
+                Volume in ml
+              </label>
+              <input
+                className="border-solid border-2 border-gray-700 round-sm p-1 m-2"
+                type="number"
+                name="ml"
+                id="ml"
+                value={ml ?? ""}
+                onChange={handleNumericValueChange(setMl)}
+              />
+            </div>
+
           </fieldset>
         </form>
 
-        {weight && isMale != null  && time && ml && abv && (
-          <div>
+        {weight && isMale !== null && time && ml && abv && (
+          <div className="my-4">
             <p>
               Your BAC would be:{" "}
               {`${calcBAC({
                 alcholConsumed: calcAlcoholInKG(ml, abv),
                 isMale: isMale,
                 weightInKG: weight,
-                timeInHours: (time/60),
-              })}`}
+                timeInHours: time,
+              }).toFixed(2)}`}
             </p>
           </div>
         )}
+
+        {weight && isMale !== null && abv &&
+          <Table
+            weight={weight}
+            isMale={isMale}
+            ABV={abv}
+            time={time ? time : undefined}
+          />
+        }
       </main>
     </>
   );
