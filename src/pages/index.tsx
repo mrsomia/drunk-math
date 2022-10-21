@@ -1,21 +1,12 @@
 import type { NextPage } from "next";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useReducer } from "react";
 import Table from "../components/table";
 import { calcAlcoholInKG, calcBAC } from "../utils";
+import { initialState, stateReducer } from "../state-reducer"
 
 const Home: NextPage = () => {
-  const [isMale, setIsMale] = useState<null | boolean>(null);
-  const [weight, setWeight] = useState<null | number>(null);
-  const [ml, setMl] = useState<null | number>(null);
-  const [abv, setAbv] = useState<null | number>(null);
-  const [time, setTime] = useState<null | number>(null);
-
-  const handleNumericValueChange = (setterFunction: Dispatch<SetStateAction<null | number>>) => {
-    return (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { value } = e.target
-      setterFunction(value === '' ? null : Number(value));
-    }
-  }
+  const [state, dispatch] = useReducer(stateReducer, initialState)
+  const { isMale, weight, ml, abv, time} = state
 
   return (
     <>
@@ -33,7 +24,11 @@ const Home: NextPage = () => {
                   name="Gendar"
                   id="Male"
                   value="Male"
-                  onChange={() => setIsMale(true)}
+                  onChange={() => dispatch({
+                    type: "UPDATE-IS-MALE",
+                    payload: true
+                    })
+                  }
                   checked={isMale || false}
                 />
                 <label
@@ -49,7 +44,11 @@ const Home: NextPage = () => {
                   name="Gender"
                   id="Female"
                   value="Female"
-                  onChange={() => setIsMale(false)}
+                  onChange={() => dispatch({
+                    type: "UPDATE-IS-MALE",
+                    payload: false,
+                    })
+                  }
                   checked={isMale == null ? false : !isMale}
                 />
                 <label
@@ -74,7 +73,10 @@ const Home: NextPage = () => {
                 name="weight"
                 id="weight"
                 value={weight ?? ""}
-                onChange={handleNumericValueChange(setWeight)}
+                onChange={(e) => dispatch({
+                  type: "UPDATE-WEIGHT",
+                  payload: e.target.value,
+                })}
               />
             </div>
 
@@ -94,7 +96,10 @@ const Home: NextPage = () => {
                 name="ABV"
                 id="ABV"
                 value={abv ?? ""}
-                onChange={handleNumericValueChange(setAbv)}
+                onChange={(e) => dispatch({
+                  type: "UPDATE-ABV",
+                  payload: e.target.value,
+                })}
               />
             </div>
 
@@ -111,7 +116,10 @@ const Home: NextPage = () => {
                 name="time"
                 id="hours"
                 value={time ?? ""}
-                onChange={handleNumericValueChange(setTime)}
+                onChange={(e) => dispatch({
+                  type: "UPDATE-TIME",
+                  payload: e.target.value,
+                })}
               />
             </div>
 
@@ -128,7 +136,10 @@ const Home: NextPage = () => {
                 name="ml"
                 id="ml"
                 value={ml ?? ""}
-                onChange={handleNumericValueChange(setMl)}
+                onChange={(e) => dispatch({
+                  type: "UPDATE-ML",
+                  payload: e.target.value,
+                })}
               />
             </div>
 
