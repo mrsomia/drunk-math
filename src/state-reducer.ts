@@ -42,6 +42,8 @@ export function stateReducer(state: typeof initialState, action: ACTIONTYPE) {
       } else {
         return { ...state, time: Number(action.payload) }
       }
+    case 'USE-LOCAL-STATE':
+      return JSON.parse(action.payload) // as typeof initialState
     default:
       return state
       throw new Error("bad action type")
@@ -53,4 +55,5 @@ export type ACTIONTYPE = | { type: 'UPDATE-IS-MALE', payload: boolean }
   | { type: 'UPDATE-ML', payload: string }
   | { type: 'UPDATE-ABV', payload: string }
   | { type: 'UPDATE-TIME', payload: string }
+  | { type: 'USE-LOCAL-STATE', payload: string }
 

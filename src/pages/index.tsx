@@ -1,12 +1,29 @@
 import type { NextPage } from "next";
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import Table from "../components/table";
 import { calcAlcoholInKG, calcBAC } from "../utils";
 import { initialState, stateReducer } from "../state-reducer"
 
 const Home: NextPage = () => {
   const [state, dispatch] = useReducer(stateReducer, initialState)
-  const { isMale, weight, ml, abv, time} = state
+  const { isMale, weight, ml, abv, time } = state
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && 
+      JSON.stringify(state) !== JSON.stringify(initialState)) {
+      console.log("saving state to local Storage")
+      localStorage.setItem('state', JSON.stringify(state))
+    }
+  }, [state])  
+
+  useEffect(() => {
+    if (window) {
+      console.log("trying to fetch state")
+      const local = localStorage.getItem('state')
+      if (local === null || local === JSON.stringify(initialState)) return
+      dispatch({ type: 'USE-LOCAL-STATE', payload: local })
+    }
+  }, [])
 
   return (
     <>
