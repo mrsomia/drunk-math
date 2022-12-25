@@ -1,10 +1,12 @@
+'use client';
+
 import type { NextPage } from "next";
 import { useEffect, useReducer } from "react";
-import Table from "../components/table";
-import { calcAlcoholInKG, calcBAC } from "../utils";
-import { initialState, stateReducer } from "../state-reducer"
+import Table from "./components/table";
+import { calcAlcoholInKG, calcBAC } from "./utils";
+import { initialState, stateReducer } from "./state-reducer"
 
-const Home: NextPage = () => {
+const Page: NextPage = () => {
   const [state, dispatch] = useReducer(stateReducer, initialState)
   const { isMale, weight, ml, abv, time } = state
 
@@ -190,5 +192,5 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Page;
 
